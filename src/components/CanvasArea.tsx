@@ -27,13 +27,14 @@ interface CanvasAreaProps {
   brushSettings: BrushSettings;
   foregroundColor: string;
   backgroundColor: string;
-  setForegroundColor: (color: string) => void;
-  beforeAfterMode: 'off' | 'split' | 'side-by-side';
-  showRulers: boolean;
-  showGuides: boolean;
-  showGrid: boolean;
+  setForegroundColor?: (color: string) => void;
+  onForegroundColorChange?: (color: string) => void;
+  beforeAfterMode?: 'off' | 'split' | 'side-by-side';
+  showRulers?: boolean;
+  showGuides?: boolean;
+  showGrid?: boolean;
   onUpdateDocument: (doc: GProDocument, recordHistory?: boolean, desc?: string) => void;
-  onCursorMove: (coords: { x: number; y: number } | null) => void;
+  onCursorMove?: (coords: { x: number; y: number } | null) => void;
 }
 
 export const CanvasArea: React.FC<CanvasAreaProps> = ({
@@ -43,13 +44,15 @@ export const CanvasArea: React.FC<CanvasAreaProps> = ({
   foregroundColor,
   backgroundColor,
   setForegroundColor,
-  beforeAfterMode,
-  showRulers,
-  showGuides,
-  showGrid,
+  onForegroundColorChange = setForegroundColor,
+  beforeAfterMode = 'off',
+  showRulers = true,
+  showGuides = true,
+  showGrid = false,
   onUpdateDocument,
   onCursorMove,
 }) => {
+  const updateFgColor = onForegroundColorChange || setForegroundColor;
   const containerRef = useRef<HTMLDivElement>(null);
   const mainCanvasRef = useRef<HTMLCanvasElement>(null);
   const overlayCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -181,7 +184,7 @@ export const CanvasArea: React.FC<CanvasAreaProps> = ({
       const py = Math.max(0, Math.min(doc.height - 1, Math.round(coords.y)));
       const pixel = ctx.getImageData(px, py, 1, 1).data;
       const hex = rgbToHex(pixel[0], pixel[1], pixel[2]);
-      setForegroundColor(hex);
+      if (updateFgColor) updateFgColor(hex);
       return;
     }
 

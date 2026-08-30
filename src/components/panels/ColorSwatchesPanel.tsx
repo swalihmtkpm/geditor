@@ -9,8 +9,10 @@ import { hexToRgb, rgbToHsl, hslToRgb, rgbToHex } from '../../utils/color';
 interface ColorSwatchesPanelProps {
   foregroundColor: string;
   backgroundColor: string;
-  onForegroundColorChange: (color: string) => void;
-  onBackgroundColorChange: (color: string) => void;
+  onForegroundColorChange?: (color: string) => void;
+  setForegroundColor?: (color: string) => void;
+  onBackgroundColorChange?: (color: string) => void;
+  setBackgroundColor?: (color: string) => void;
 }
 
 const DEFAULT_SWATCHES = [
@@ -24,8 +26,12 @@ export const ColorSwatchesPanel: React.FC<ColorSwatchesPanelProps> = ({
   foregroundColor,
   backgroundColor,
   onForegroundColorChange,
+  setForegroundColor,
   onBackgroundColorChange,
+  setBackgroundColor,
 }) => {
+  const updateFgColor = onForegroundColorChange || setForegroundColor || (() => {});
+  const updateBgColor = onBackgroundColorChange || setBackgroundColor || (() => {});
   const [swatches, setSwatches] = useState<string[]>(DEFAULT_SWATCHES);
   const rgb = hexToRgb(foregroundColor) || { r: 255, g: 255, b: 255 };
   const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
@@ -44,7 +50,7 @@ export const ColorSwatchesPanel: React.FC<ColorSwatchesPanelProps> = ({
           <input
             type="color"
             value={foregroundColor}
-            onChange={(e) => onForegroundColorChange(e.target.value)}
+            onChange={(e) => updateFgColor(e.target.value)}
             className="w-12 h-12 rounded border border-[#2e3240] cursor-pointer bg-transparent"
           />
           <div className="flex flex-col gap-0.5 font-mono text-[11px]">
@@ -74,10 +80,10 @@ export const ColorSwatchesPanel: React.FC<ColorSwatchesPanelProps> = ({
           {swatches.map((color, i) => (
             <button
               key={`${color}-${i}`}
-              onClick={() => onForegroundColorChange(color)}
+              onClick={() => updateFgColor(color)}
               onContextMenu={(e) => {
                 e.preventDefault();
-                onBackgroundColorChange(color);
+                updateBgColor(color);
               }}
               style={{ backgroundColor: color }}
               className="w-full aspect-square rounded-sm border border-[#2e3240] hover:scale-110 transition-transform shadow-sm"

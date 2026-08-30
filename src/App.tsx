@@ -511,10 +511,13 @@ export function App() {
           {/* Left Main Toolbar */}
           <LeftToolbar
             activeTool={activeTool}
+            setActiveTool={setActiveTool}
             onSelectTool={setActiveTool}
             foregroundColor={foregroundColor}
             backgroundColor={backgroundColor}
+            setForegroundColor={setForegroundColor}
             onForegroundColorChange={setForegroundColor}
+            setBackgroundColor={setBackgroundColor}
             onBackgroundColorChange={setBackgroundColor}
             brushSettings={brushSettings}
             onBrushSettingsChange={setBrushSettings}
@@ -527,7 +530,10 @@ export function App() {
             activeTool={activeTool}
             foregroundColor={foregroundColor}
             backgroundColor={backgroundColor}
+            setForegroundColor={setForegroundColor}
+            onForegroundColorChange={setForegroundColor}
             brushSettings={brushSettings}
+            beforeAfterMode={beforeAfterMode}
             showRulers={showRulers}
             showGuides={showGuides}
             showGrid={showGrid}

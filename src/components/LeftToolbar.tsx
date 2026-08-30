@@ -68,8 +68,20 @@ export const LeftToolbar: React.FC<LeftToolbarProps> = ({
   onOpenColorPicker,
 }) => {
   const selectTool = onSelectTool || setActiveTool;
-  const updateFgColor = onForegroundColorChange || setForegroundColor;
-  const updateBgColor = onBackgroundColorChange || setBackgroundColor;
+  const updateFgColor = (color: string) => {
+    if (typeof onForegroundColorChange === 'function') {
+      onForegroundColorChange(color);
+    } else if (typeof setForegroundColor === 'function') {
+      setForegroundColor(color);
+    }
+  };
+  const updateBgColor = (color: string) => {
+    if (typeof onBackgroundColorChange === 'function') {
+      onBackgroundColorChange(color);
+    } else if (typeof setBackgroundColor === 'function') {
+      setBackgroundColor(color);
+    }
+  };
   const [flyoutOpen, setFlyoutOpen] = useState<string | null>(null);
 
   const toolGroups: ToolGroup[] = [
