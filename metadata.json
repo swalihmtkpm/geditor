@@ -1,0 +1,6 @@
+{
+  "name": "G-Pro Photo Editor",
+  "description": "Professional-grade non-AI photo editing and graphic design suite with multi-layer compositing, RAW workflow, curves, color grading, masks, selections, filters, and vector tools.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
